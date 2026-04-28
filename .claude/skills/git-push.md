@@ -1,12 +1,15 @@
 ---
-description: 変更をすべてステージ・コミット・プッシュする。main/master へのプッシュは禁止。プッシュ対象と除外ファイルを明示する。
+description: 変更をすべてステージ・コミット・プッシュし、任意でプルリクエストを作成する。main/master へのプッシュは禁止。
 ---
 
 以下の手順で Git 操作を行ってください。
+環境は **Windows（PowerShell）** を前提とします。
 
 ## Step 1: ブランチ確認（main/master は即中断）
 
-```bash
+PowerShell ツールで実行する：
+
+```powershell
 git branch --show-current
 ```
 
@@ -19,14 +22,14 @@ git branch --show-current
 
 ## Step 2: 変更状況の確認
 
-```bash
+```powershell
 git status
 git diff --stat HEAD
 ```
 
 ## Step 3: 除外ファイルの確認
 
-```bash
+```powershell
 git status --ignored --short
 ```
 
@@ -47,10 +50,16 @@ git status --ignored --short
 
 ## Step 5: ステージ・コミット・プッシュ
 
-```bash
+PowerShell ツールで実行する（ヒアストリングで改行を含むコミットメッセージを渡す）：
+
+```powershell
 git add -A
 git status  # ステージ内容を再確認してからコミット
-git commit -m "<確認済みのメッセージ>"
+git commit -m @'
+<確認済みのメッセージ>
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+'@
 git push -u origin <現在のブランチ名>
 ```
 
@@ -64,8 +73,33 @@ git push -u origin <現在のブランチ名>
 
 ## Step 7: プルリクエストの作成
 
-```bash
-gh pr create --title "<コミットメッセージと同じ>" --body "$(cat <<'EOF'
+### gh コマンドの呼び出し方（Windows 注意事項）
+
+- `gh` が PATH に通っていない場合はフルパスで呼び出す
+- PowerShell でスペースを含むパスの実行には `&` が必要
+
+```powershell
+# gh が PATH に通っている場合
+gh pr create ...
+
+# 通っていない場合（GitHub CLI のデフォルトインストール先）
+& "C:\Program Files\GitHub CLI\gh.exe" pr create ...
+```
+
+まず `gh` で試し、`command not found` になったらフルパスに切り替える。
+
+### 未認証の場合
+
+```powershell
+& "C:\Program Files\GitHub CLI\gh.exe" auth login
+```
+
+ブラウザ認証（Login with a web browser）を選択し、表示されるワンタイムコードを入力する。
+
+### PR 作成コマンド（PowerShell ヒアストリング形式）
+
+```powershell
+& "C:\Program Files\GitHub CLI\gh.exe" pr create --title "<コミットメッセージと同じ>" --body @'
 ## Summary
 - <変更内容を箇条書き>
 
@@ -73,8 +107,7 @@ gh pr create --title "<コミットメッセージと同じ>" --body "$(cat <<'E
 - [ ] 動作確認済み
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
-EOF
-)"
+'@
 ```
 
 作成後、PR の URL をユーザーに伝える。
