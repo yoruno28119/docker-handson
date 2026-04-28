@@ -54,7 +54,32 @@ git commit -m "<確認済みのメッセージ>"
 git push -u origin <現在のブランチ名>
 ```
 
-## Step 6: 結果の報告
+## Step 6: プルリクエストの作成確認
+
+プッシュ完了後、ユーザーに以下を確認する：
+
+> プルリクエストも作成しますか？（ベースブランチ: `main`）
+
+「はい」の場合は Step 7 へ進む。「いいえ」の場合は Step 8 へ進む。
+
+## Step 7: プルリクエストの作成
+
+```bash
+gh pr create --title "<コミットメッセージと同じ>" --body "$(cat <<'EOF'
+## Summary
+- <変更内容を箇条書き>
+
+## Test plan
+- [ ] 動作確認済み
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+EOF
+)"
+```
+
+作成後、PR の URL をユーザーに伝える。
+
+## Step 8: 結果の報告
 
 以下の形式でまとめて報告する：
 
@@ -72,4 +97,6 @@ git push -u origin <現在のブランチ名>
 **除外したファイル:**
 - xxx （理由: .gitignore）
 - （なければ「なし」）
+
+**プルリクエスト:** <URL または「作成しない」>
 ```
