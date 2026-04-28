@@ -1,0 +1,73 @@
+# ======================
+# シークレット・環境変数
+# ======================
+.env
+*.env.local
+
+# ======================
+# .NET ビルド成果物
+# ======================
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# 発行成果物
+[Pp]ublish/
+PublishProfiles/
+
+# ======================
+# Visual Studio
+# ======================
+.vs/
+*.rsuser
+*.vsp
+*.vspx
+*.sap
+
+# テスト結果
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# ======================
+# Visual Studio Code
+# ======================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ======================
+# JetBrains Rider
+# ======================
+.idea/
+*.sln.iml
+
+# ======================
+# Docker
+# ======================
+# PostgreSQL データディレクトリ（ローカルバインドマウント時）
+pgdata/
+
+# ======================
+# Windows
+# ======================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
